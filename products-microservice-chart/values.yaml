@@ -1,0 +1,81 @@
+
+
+replicaCount: 2
+
+image:
+  repository: your-docker-registry/products-microservice  # Reemplaza con tu registro de Docker
+  pullPolicy: IfNotPresent
+  tag: "1.0.0"
+
+nameOverride: "products-service"
+fullnameOverride: "products-microservice"
+
+serviceAccount:
+  create: true
+  automount: true
+  name: "products-service-account"
+
+podAnnotations: {}
+podLabels:
+  app: products-service
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 100
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /health  # Asegúrate de implementar este endpoint
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready  # Asegúrate de implementar este endpoint
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+# Configura las variables de entorno necesarias para tu microservicio
+env:
+  - name: DB_HOST
+  - name: DB_PORT
+  - name: DB_USER
+  - name: DB_PASSWORD
+  - name: DB_NAME
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
