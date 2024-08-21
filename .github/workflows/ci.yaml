@@ -42,4 +42,4 @@ jobs:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           with:
               projectBaseDir: . # Path to the root of the project
-              args: -Dsonar.projectKey=products-microservice-root -Dsonar.projectName=products-microservice-root -Dsonar.organization=dieg0code
+              args: -Dsonar.projectKey=Dieg0Code_portfolio_03_microservices -Dsonar.organization=dieg0code
