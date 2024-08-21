@@ -10,7 +10,7 @@ on:
 
 jobs:
     scan:
-        name: SonarQube Scan
+        name: SonarQube Scan # does works? or what?
         runs-on: ubuntu-latest
         steps:
         - name: Checkout
