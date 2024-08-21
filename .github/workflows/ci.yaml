@@ -24,4 +24,4 @@ jobs:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           with:
-              projectBaseDir: ./products-microservice
+              projectBaseDir: ./products-microservice # Path to the root of the project
