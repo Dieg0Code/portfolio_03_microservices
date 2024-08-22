@@ -50,6 +50,9 @@ jobs:
       run: ./gradlew build -p ./user-microservice
       working-directory: ./user-microservice
 
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./user-microservice/gradlew
+
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
