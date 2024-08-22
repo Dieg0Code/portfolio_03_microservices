@@ -18,9 +18,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: List files in the products-microservice directory
-      run: ls -R ./products-microservice
-
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
@@ -44,8 +41,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Compile Java Project
-      run: ./gradlew build
+    - name: Set up Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 8.8
+
+    - name: Build with Gradle
+      run: ./gradlew build -p ./user-microservice
       working-directory: ./user-microservice
 
     - name: SonarQube Scan
