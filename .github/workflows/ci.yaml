@@ -50,7 +50,7 @@ jobs:
       run: chmod +x ./user-microservice/gradlew    
 
     - name: Build with Gradle
-      run: ./gradlew build -p ./user-microservice
+      run: ./gradlew build
       working-directory: ./user-microservice
 
     - name: SonarQube Scan
