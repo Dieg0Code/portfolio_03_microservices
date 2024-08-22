@@ -39,7 +39,7 @@ jobs:
         fetch-depth: 0
 
     - name: List files in the users-microservice directory
-      run: ls -R ./users-microservice
+      run: ls -R ./user-microservice
 
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
@@ -47,4 +47,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: ./users-microservice
+        projectBaseDir: ./user-microservice
