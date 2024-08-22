@@ -1,6 +1,6 @@
 package com.dieg0code.user_microservice.service;
 
-import com.dieg0code.user_microservice.Models.User;
+import com.dieg0code.user_microservice.models.User;
 import com.dieg0code.user_microservice.json.request.CreateUserRequest;
 import com.dieg0code.user_microservice.json.request.LoginRequest;
 import com.dieg0code.user_microservice.json.response.UserResponse;

@@ -1,4 +1,4 @@
-package com.dieg0code.user_microservice.Models;
+package com.dieg0code.user_microservice.models;
 
 import jakarta.persistence.*;
 import lombok.Data;

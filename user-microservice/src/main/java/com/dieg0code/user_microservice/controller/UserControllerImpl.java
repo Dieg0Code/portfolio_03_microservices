@@ -8,6 +8,7 @@ import com.dieg0code.user_microservice.json.response.UserResponse;
 import com.dieg0code.user_microservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,6 +85,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @PutMapping("/{userID}")
+    @PreAuthorize("hasRole('ADMIN') or #userID == authentication.principal")
     @Override
     public BaseResponse<Boolean> updateUser(@PathVariable int userID, @RequestBody CreateUserRequest createUserRequest) {
         BaseResponse<Boolean> response = new BaseResponse<>();
@@ -115,6 +117,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @DeleteMapping("/{userID}")
+    @PreAuthorize("hasRole('ADMIN') or #userID == authentication.principal")
     @Override
     public BaseResponse<Boolean> deleteUser(@PathVariable int userID) {
         BaseResponse<Boolean> response = new BaseResponse<>();
@@ -147,6 +150,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public BaseResponse<List<UserResponse>> getAllUsers() {
         BaseResponse<List<UserResponse>> response = new BaseResponse<>();
