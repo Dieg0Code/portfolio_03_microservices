@@ -45,7 +45,8 @@ jobs:
         java-version: '17'
 
     - name: Compile Java Project
-      run: ./gradlew build -p ./user-microservice
+      run: ./gradlew build
+      working-directory: ./user-microservice
 
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
