@@ -25,12 +25,3 @@ jobs:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           with:
               projectBaseDir: ./products-microservice # Path to the root of the project
-
-    scan-root:
-        name: SonarQube Scan Root
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
