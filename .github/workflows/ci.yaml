@@ -1,44 +1,50 @@
 name: CI Pipeline
 
 on:
-    push:
-        branches:
-        - main
-    pull_request:
-        branches:
-        - main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-    scan-products-microservice:
-        name: SonarQube Scan # does works? or what?
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+  scan-products-microservice:
+    name: SonarQube Scan for Products Microservice
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-        - name: SonarQube Scan
-          uses: sonarsource/sonarcloud-github-action@master
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          with:
-              projectBaseDir: ./products-microservice # Path to the root of the project
+    - name: List files in the products-microservice directory
+      run: ls -R ./products-microservice
 
-    scan-users-microservice:
-        name: SonarQube Scan # does works? or what?
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
+    - name: SonarQube Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: ./products-microservice
 
-        - name: SonarQube Scan
-          uses: sonarsource/sonarcloud-github-action@master
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          with:
-              projectBaseDir: ./users-microservice # Path to the root of the project
+  scan-users-microservice:
+    name: SonarQube Scan for Users Microservice
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: List files in the users-microservice directory
+      run: ls -R ./users-microservice
+
+    - name: SonarQube Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: ./users-microservice
