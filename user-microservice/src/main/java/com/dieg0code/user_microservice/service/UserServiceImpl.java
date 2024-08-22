@@ -2,13 +2,20 @@ package com.dieg0code.user_microservice.service;
 
 import com.dieg0code.user_microservice.Models.User;
 import com.dieg0code.user_microservice.json.request.CreateUserRequest;
+import com.dieg0code.user_microservice.json.request.LoginRequest;
 import com.dieg0code.user_microservice.json.response.UserResponse;
 import com.dieg0code.user_microservice.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +29,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Value("${JWT_SECRET_KEY}")
+    private String jwtSecretKey;
 
     @Override
     public int createUser(CreateUserRequest createUserRequest) {
@@ -139,5 +149,43 @@ public class UserServiceImpl implements UserService{
         }
 
         return userResponses;
+    }
+
+    @Override
+    public String login(LoginRequest loginRequest) {
+        String token = null;
+
+        try {
+            Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+
+                if (bCryptPasswordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+
+                    byte[] secretBytes = jwtSecretKey.getBytes(StandardCharsets.UTF_8);
+                    Key key = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS256.getJcaName());
+
+                    token = Jwts.builder()
+                            .setSubject(user.getUsername())
+                            .claim("userID", user.getUserID())
+                            .claim("role", user.getRole())
+                            .signWith(key)
+                            .compact();
+
+                    token = "Bearer " + token;
+
+                    log.info("User logged in: {}", user.getUsername());
+                } else {
+                    log.error("Invalid password for user: {}", user.getUsername());
+                }
+            } else {
+                log.error("User not found: {}", loginRequest.getUsername());
+            }
+        } catch (Exception e) {
+            log.error("Error logging in: {}", e.getMessage());
+        }
+
+        return token;
     }
 }

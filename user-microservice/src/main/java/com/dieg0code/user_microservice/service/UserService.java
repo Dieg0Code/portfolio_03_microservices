@@ -1,6 +1,7 @@
 package com.dieg0code.user_microservice.service;
 
 import com.dieg0code.user_microservice.json.request.CreateUserRequest;
+import com.dieg0code.user_microservice.json.request.LoginRequest;
 import com.dieg0code.user_microservice.json.response.UserResponse;
 
 import java.util.List;
@@ -11,5 +12,6 @@ public interface UserService {
     boolean updateUser(int userID, CreateUserRequest createUserRequest);
     boolean deleteUser(int userID);
     List<UserResponse> getAllUsers();
+    String login(LoginRequest loginRequest);
 
 }
