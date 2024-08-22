@@ -38,8 +38,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: List files in the users-microservice directory
-      run: ls -R ./user-microservice
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Compile Java Project
+      run: ./gradlew build -p ./user-microservice
 
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@master
@@ -48,3 +54,4 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         projectBaseDir: ./user-microservice
+        args: "-Dsonar.java.binaries=./user-microservice/build/classes/java/main"
