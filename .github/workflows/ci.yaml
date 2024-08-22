@@ -29,6 +29,8 @@ jobs:
   scan-users-microservice:
     name: SonarQube Scan for Users Microservice
     runs-on: ubuntu-latest
+    env:
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
