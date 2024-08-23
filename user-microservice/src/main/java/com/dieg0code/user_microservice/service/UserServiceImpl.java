@@ -156,9 +156,10 @@ public class UserServiceImpl implements UserService{
         String token = null;
 
         try {
-            Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+            Optional<User> userOptional = userRepository.findByEmail(loginRequest.getEmail());
 
             if (userOptional.isPresent()) {
+
                 User user = userOptional.get();
 
                 if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
@@ -175,12 +176,12 @@ public class UserServiceImpl implements UserService{
 
                     token = "Bearer " + token;
 
-                    log.info("User logged in: {}", user.getUsername());
+                    log.info("User logged in: {}", user.getEmail());
                 } else {
-                    log.error("Invalid password for user: {}", user.getUsername());
+                    log.error("Invalid password for user: {}", user.getEmail());
                 }
             } else {
-                log.error("User not found: {}", loginRequest.getUsername());
+                log.error("User not found: {}", loginRequest.getEmail());
             }
         } catch (Exception e) {
             log.error("Error logging in: {}", e.getMessage());
