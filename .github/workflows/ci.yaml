@@ -62,4 +62,4 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         projectBaseDir: ./user-microservice
-        args: "-Dsonar.java.binaries=./user-microservice/build/classes/java/main"
+        args: "-Dsonar.java.binaries=./build/classes/java/main"
