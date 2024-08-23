@@ -1,16 +1,16 @@
 package com.dieg0code.user_microservice.service;
 
-import com.dieg0code.user_microservice.models.User;
 import com.dieg0code.user_microservice.json.request.CreateUserRequest;
 import com.dieg0code.user_microservice.json.request.LoginRequest;
 import com.dieg0code.user_microservice.json.response.UserResponse;
+import com.dieg0code.user_microservice.models.User;
 import com.dieg0code.user_microservice.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Value("${JWT_SECRET_KEY}")
     private String jwtSecretKey;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
         try {
             User user = new User();
             user.setUsername(createUserRequest.getUsername());
-            String encryptedPassword = bCryptPasswordEncoder.encode(createUserRequest.getPassword());
+            String encryptedPassword = passwordEncoder.encode(createUserRequest.getPassword());
             user.setPassword(encryptedPassword);
             user.setEmail(createUserRequest.getEmail());
             user.setRole(createUserRequest.getRole());
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService{
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 user.setUsername(createUserRequest.getUsername());
-                String encryptedPassword = bCryptPasswordEncoder.encode(createUserRequest.getPassword());
+                String encryptedPassword = passwordEncoder.encode(createUserRequest.getPassword());
                 user.setPassword(encryptedPassword);
                 user.setEmail(createUserRequest.getEmail());
                 user.setRole(createUserRequest.getRole());
@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService{
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
 
-                if (bCryptPasswordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
 
                     byte[] secretBytes = jwtSecretKey.getBytes(StandardCharsets.UTF_8);
                     Key key = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS256.getJcaName());
