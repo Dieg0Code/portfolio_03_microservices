@@ -6,26 +6,23 @@ import com.dieg0code.user_microservice.json.response.UserResponse;
 import com.dieg0code.user_microservice.models.User;
 import com.dieg0code.user_microservice.repository.UserRepository;
 import com.dieg0code.user_microservice.service.UserServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
     @Mock
@@ -37,8 +34,11 @@ public class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    @Value("${JWT_SECRET_KEY}")
-    private String jwtSecretKey;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(userService, "jwtSecretKey", "testSecretKey12345678901234567890");
+    }
 
     @Test
     public void testCreateUserSuccess() {
@@ -197,5 +197,118 @@ public class UserServiceImplTest {
         assertFalse(deleted);
         verify(userRepository, never()).deleteById(1);
     }
-    
+
+    @Test
+    void testLoginSuccessful() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("test@test.com");
+        loginRequest.setPassword("password123");
+
+        User user = new User();
+        user.setEmail("test@test.com");
+        user.setPassword("encodedPassword");
+        user.setUsername("testUser");
+        user.setUserID(1);
+        user.setRole("USER");
+
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("password123", "encodedPassword")).thenReturn(true);
+
+        // Act
+        String token = userService.login(loginRequest);
+
+        // Assert
+        assertNotNull(token, "Token should not be null");
+        assertTrue(token.startsWith("Bearer "), "Token should start with 'Bearer '");
+
+        // Verify
+        verify(userRepository).findByEmail("test@test.com");
+        verify(passwordEncoder).matches("password123", "encodedPassword");
+    }
+
+    @Test
+    void testLoginUserNotFound() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("nonexistent@example.com");
+        loginRequest.setPassword("password123");
+
+        when(userRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+
+        // Act
+        String token = userService.login(loginRequest);
+
+        // Assert
+        assertNull(token, "Token should be null for non-existent user");
+
+        // Verify
+        verify(userRepository).findByEmail("nonexistent@example.com");
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    void testLoginInvalidPassword() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("test@test.com");
+        loginRequest.setPassword("wrongPassword");
+
+        User user = new User();
+        user.setEmail("test@test.com");
+        user.setPassword("encodedPassword");
+
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
+
+        // Act
+        String token = userService.login(loginRequest);
+
+        // Assert
+        assertNull(token, "Token should be null for invalid password");
+
+        // Verify
+        verify(userRepository).findByEmail("test@test.com");
+        verify(passwordEncoder).matches("wrongPassword", "encodedPassword");
+    }
+
+    @Test
+    void testLoginExceptionHandling() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("test@test.com");
+        loginRequest.setPassword("password123");
+
+        when(userRepository.findByEmail("test@test.com")).thenThrow(new RuntimeException("Database error"));
+
+        // Act
+        String token = userService.login(loginRequest);
+
+        // Assert
+        assertNull(token, "Token should be null when an exception occurs");
+
+        // Verify
+        verify(userRepository).findByEmail("test@test.com");
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    void testLoginEmptyCredentials() {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("");
+        loginRequest.setPassword("");
+
+        // Act
+        String token = userService.login(loginRequest);
+
+        // Assert
+        assertNull(token, "Token should be null for empty credentials");
+
+        // Verify
+        verifyNoInteractions(userRepository);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+
 }

@@ -155,6 +155,16 @@ public class UserServiceImpl implements UserService{
     public String login(LoginRequest loginRequest) {
         String token = null;
 
+        if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
+            log.error("Invalid login request");
+            return null;
+        }
+
+        if (loginRequest.getEmail().isEmpty() || loginRequest.getPassword().isEmpty()) {
+            log.error("Invalid login request");
+            return null;
+        }
+
         try {
             Optional<User> userOptional = userRepository.findByEmail(loginRequest.getEmail());
 

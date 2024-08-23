@@ -109,7 +109,7 @@ public class UserControllerImpl implements UserController {
             response.setCode("500");
             response.setStatus("error");
             response.setMsg("Exception occurred: " + e.getMessage());
-            response.setData(false);
+            response.setData(null);
             log.error("Error updating user with ID: {}", userID, e);
         }
 
@@ -132,9 +132,9 @@ public class UserControllerImpl implements UserController {
                 response.setData(true);
                 log.info("User deleted with ID: {}", userID);
             } else {
-                response.setCode("500");
+                response.setCode("404");
                 response.setStatus("error");
-                response.setMsg("Error deleting user");
+                response.setMsg("User not found");
                 response.setData(false);
                 log.error("Error deleting user with ID: {}", userID);
             }
@@ -142,7 +142,7 @@ public class UserControllerImpl implements UserController {
             response.setCode("500");
             response.setStatus("error");
             response.setMsg("Exception occurred: " + e.getMessage());
-            response.setData(false);
+            response.setData(null);
             log.error("Error deleting user with ID: {}", userID, e);
         }
 
