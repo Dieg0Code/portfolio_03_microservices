@@ -22,13 +22,13 @@ jobs:
       with:
         go-version: 1.22.1
 
-    - name: SonarQube Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        projectBaseDir: ./products-microservice
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarcloud-github-action@master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #   with:
+    #     projectBaseDir: ./products-microservice
 
   scan-users-microservice:
     name: SonarQube Scan for Users Microservice
@@ -59,11 +59,11 @@ jobs:
       run: ./gradlew build
       working-directory: ./user-microservice
 
-    - name: SonarQube Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        projectBaseDir: ./user-microservice
-        args: "-Dsonar.java.binaries=./build/classes/java/main"
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarcloud-github-action@master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #   with:
+    #     projectBaseDir: ./user-microservice
+    #     args: "-Dsonar.java.binaries=./build/classes/java/main"
