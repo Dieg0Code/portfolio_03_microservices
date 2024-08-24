@@ -75,15 +75,15 @@ func (p *ProductControllerImpl) CreateProduct(c *gin.Context) {
 
 // DeleteProduct implements ProductController.
 func (p *ProductControllerImpl) DeleteProduct(c *gin.Context) {
-	userID := c.Param("userID")
+	productID := c.Param("productID")
 
-	userIDUint, err := strconv.ParseUint(userID, 10, 32)
+	productIDUint, err := strconv.ParseUint(productID, 10, 32)
 	if err != nil {
-		logrus.WithError(err).Error("Error parsing userID")
+		logrus.WithError(err).Error("Error parsing productID")
 		errRes := response.BaseResponse{
 			Code:   400,
 			Status: "Bad Request",
-			Msg:    "Invalid userID",
+			Msg:    "Invalid productID",
 			Data:   nil,
 		}
 
@@ -91,7 +91,7 @@ func (p *ProductControllerImpl) DeleteProduct(c *gin.Context) {
 		return
 	}
 
-	id := uint(userIDUint)
+	id := uint(productIDUint)
 
 	err = p.ProductService.DeleteProduct(id)
 	if err != nil {
@@ -251,9 +251,24 @@ func (p *ProductControllerImpl) GetProductById(c *gin.Context) {
 // UpdateProduct implements ProductController.
 func (p *ProductControllerImpl) UpdateProduct(c *gin.Context) {
 
+	productID := c.Param("productID")
+
+	productIDUint, err := strconv.ParseUint(productID, 10, 32)
+	if err != nil {
+		logrus.WithError(err).Error("Error parsing productID")
+		errRes := response.BaseResponse{
+			Code:   400,
+			Status: "Bad Request",
+			Msg:    "Invalid productID",
+			Data:   nil,
+		}
+
+		c.JSON(400, errRes)
+	}
+
 	updateProductRequest := &request.UpdateProductRequest{}
 
-	err := c.ShouldBindJSON(updateProductRequest)
+	err = c.ShouldBindJSON(updateProductRequest)
 	if err != nil {
 		logrus.WithError(err).Error("Error binding request")
 		errRes := response.BaseResponse{
@@ -281,7 +296,7 @@ func (p *ProductControllerImpl) UpdateProduct(c *gin.Context) {
 		return
 	}
 
-	product, err := p.ProductService.UpdateProduct(updateProductRequest)
+	product, err := p.ProductService.UpdateProduct(uint(productIDUint), updateProductRequest)
 	if err != nil {
 		logrus.WithError(err).Error("Error updating product")
 		errRes := response.BaseResponse{

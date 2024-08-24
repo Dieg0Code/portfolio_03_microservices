@@ -118,15 +118,16 @@ func (p *ProductServiceImpl) GetProductById(ProductID uint) (*response.ProductRe
 }
 
 // UpdateProduct implements ProductService.
-func (p *ProductServiceImpl) UpdateProduct(product *request.UpdateProductRequest) (*response.ProductResponse, error) {
+func (p *ProductServiceImpl) UpdateProduct(productID uint, product *request.UpdateProductRequest) (*response.ProductResponse, error) {
 
 	productModel := &models.Product{
-		Name:  product.Name,
-		Price: product.Price,
-		Stock: product.Stock,
+		Name:     product.Name,
+		Category: product.Category,
+		Price:    product.Price,
+		Stock:    product.Stock,
 	}
 
-	updatedProduct, err := p.productRepo.UpdateProduct(productModel)
+	updatedProduct, err := p.productRepo.UpdateProduct(productID, productModel)
 	if err != nil {
 		logrus.WithError(err).Error("Error updating product")
 		return nil, err

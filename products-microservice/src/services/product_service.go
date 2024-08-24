@@ -10,6 +10,6 @@ type ProductService interface {
 	GetProductById(productID uint) (*response.ProductResponse, error)
 	GetAllProducts(page int, pageSize int) ([]response.ProductResponse, error)
 	GetByCategory(category string) ([]response.ProductResponse, error)
-	UpdateProduct(product *request.UpdateProductRequest) (*response.ProductResponse, error)
+	UpdateProduct(productID uint, product *request.UpdateProductRequest) (*response.ProductResponse, error)
 	DeleteProduct(ProductID uint) error
 }

@@ -7,7 +7,7 @@ type ProductRepository interface {
 	GetProductById(ProductID uint) (*models.Product, error)
 	GetAllProducts(offset int, pageSize int) ([]models.Product, error)
 	GetByCategory(category string) ([]models.Product, error)
-	UpdateProduct(product *models.Product) (*models.Product, error)
+	UpdateProduct(productID uint, product *models.Product) (*models.Product, error)
 	DeleteProduct(ProductID uint) error
 	CheckProductExist(ProductID uint) (bool, error)
 }

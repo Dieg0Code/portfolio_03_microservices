@@ -32,6 +32,7 @@ func (p *ProductRepositoryImpl) CreateProduct(product *models.Product) (*models.
 	result := p.db.Create(product)
 	if result.Error != nil {
 		logrus.WithError(result.Error).Error("Error creating product")
+		return nil, result.Error
 	}
 
 	return product, result.Error
@@ -111,7 +112,7 @@ func (p *ProductRepositoryImpl) GetProductById(ProductID uint) (*models.Product,
 }
 
 // UpdateProduct implements ProductRepository.
-func (p *ProductRepositoryImpl) UpdateProduct(product *models.Product) (*models.Product, error) {
+func (p *ProductRepositoryImpl) UpdateProduct(prodctID uint, product *models.Product) (*models.Product, error) {
 	exists, err := p.CheckProductExist(product.ID)
 	if err != nil {
 		logrus.WithError(err).Error("Error checking product existence")
@@ -123,7 +124,7 @@ func (p *ProductRepositoryImpl) UpdateProduct(product *models.Product) (*models.
 		return nil, errors.New("product not found")
 	}
 
-	result := p.db.Save(product)
+	result := p.db.Where(IdPlaceholder, product.ID).Updates(product)
 	if result.Error != nil {
 		logrus.WithError(result.Error).Error("Error updating product")
 		return nil, result.Error
