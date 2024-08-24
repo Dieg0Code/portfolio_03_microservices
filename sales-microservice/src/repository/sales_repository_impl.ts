@@ -79,7 +79,7 @@ export class SalesRepositoryImpl implements SalesRepository {
         }
     }
 
-    async getSalesByDate(date: Date): Promise<Sale[]> {
+    async getSalesByDate(date: string): Promise<Sale[]> {
         const params = {
             TableName: this.tableName,
             FilterExpression: 'date = :date',

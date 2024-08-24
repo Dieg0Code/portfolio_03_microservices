@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { IsArray, IsNumber, ValidateNested } from "class-validator";
 import { Product } from "../../models/Product";
 import { Type } from "class-transformer";

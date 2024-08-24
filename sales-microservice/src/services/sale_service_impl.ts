@@ -73,8 +73,9 @@ export class SaleServiceImpl implements SaleService {
         }
     }
     async getSalesByDate(date: Date): Promise<SaleResponse[]> {
+        const dateStr = date.toISOString();
         try {
-            const sales = await this.saleRepo.getSalesByDate(date);
+            const sales = await this.saleRepo.getSalesByDate(dateStr);
             return sales.map(sale => {
                 return {
                     saleID: sale.saleID,
