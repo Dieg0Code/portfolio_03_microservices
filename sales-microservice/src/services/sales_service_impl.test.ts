@@ -61,7 +61,7 @@ describe('SaleServiceImpl', () => {
           userID: 1,
           products: [{ productID: 1, name: 'Prod 1', price: 50, quantity: 2 }],
           totalAmount: 100,
-          date: mockDate.toISOString()
+          createdAt: mockDate.toISOString()
         }));
         expect(mockLogger.info).toHaveBeenCalledWith('Sale created with ID: mocked-uuid');
       });
@@ -81,7 +81,7 @@ describe('SaleServiceImpl', () => {
           userID: 1,
           products: [{ productID: 1, name: 'Prod 1', price: 50, quantity: 2 }],
           totalAmount: 100,
-          date: '2024-08-24T00:15:17.650Z',
+          createdAt: '2024-08-24T00:15:17.650Z',
         };
         mockSalesRepository.getSaleByID.mockResolvedValue(mockSale);
   
@@ -107,14 +107,14 @@ describe('SaleServiceImpl', () => {
             userID: 1,
             products: [{ productID: 1, name: 'Prod 1', price: 50, quantity: 2 }],
             totalAmount: 100,
-            date: '2024-08-24T00:15:17.650Z',
+            createdAt: '2024-08-24T00:15:17.650Z',
           },
           {
             saleID: 'sale-2',
             userID: 1,
             products: [{ productID: 2, name: 'Prod 2', price: 75, quantity: 1 }],
             totalAmount: 75,
-            date: '2024-08-25T00:15:17.650Z',
+            createdAt: '2024-08-25T00:15:17.650Z',
           },
         ];
         mockSalesRepository.getSalesByUserID.mockResolvedValue(mockSales);
@@ -134,7 +134,7 @@ describe('SaleServiceImpl', () => {
             userID: 1,
             products: [{ productID: 1, name: 'Prod 1', price: 50, quantity: 2 }],
             totalAmount: 100,
-            date: '2024-08-24T00:15:17.650Z',
+            createdAt: '2024-08-24T00:15:17.650Z',
           },
         ];
         mockSalesRepository.getSalesByDate.mockResolvedValue(mockSales);

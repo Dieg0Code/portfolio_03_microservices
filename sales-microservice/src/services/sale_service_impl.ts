@@ -26,7 +26,7 @@ export class SaleServiceImpl implements SaleService {
                     userID: sale.userID,
                     products: sale.products,
                     totalAmount: sale.totalAmount,
-                    date: sale.date
+                    createdAt: sale.createdAt
                 };
             });
         } catch (error) {
@@ -43,7 +43,7 @@ export class SaleServiceImpl implements SaleService {
                 userID: saleRequest.userID,
                 products: saleRequest.products,
                 totalAmount: saleRequest.totalAmount,
-                date: new Date().toISOString() // Fecha actual
+                createdAt: new Date().toISOString().split('T')[0]
             };
 
             await this.saleRepo.createSale(sale);
@@ -66,7 +66,7 @@ export class SaleServiceImpl implements SaleService {
                 userID: sale.userID,
                 products: sale.products,
                 totalAmount: sale.totalAmount,
-                date: sale.date
+                createdAt: sale.createdAt
             };
 
         } catch (error) {
@@ -84,7 +84,7 @@ export class SaleServiceImpl implements SaleService {
                     userID: sale.userID,
                     products: sale.products,
                     totalAmount: sale.totalAmount,
-                    date: sale.date
+                    createdAt: sale.createdAt
                 };
             });
         } catch (error) {
@@ -102,7 +102,7 @@ export class SaleServiceImpl implements SaleService {
                     userID: sale.userID,
                     products: sale.products,
                     totalAmount: sale.totalAmount,
-                    date: sale.date
+                    createdAt: sale.createdAt
                 };
             });
         } catch (error) {

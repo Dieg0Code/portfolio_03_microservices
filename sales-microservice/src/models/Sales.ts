@@ -5,5 +5,5 @@ export interface Sale {
     userID: number;
     products: Product[];
     totalAmount: number;
-    date: string;
+    createdAt: string;
 }

@@ -100,7 +100,7 @@ describe('SaleControllerImpl', () => {
         userID: 1,
         products: [{ productID: 1, name: 'Prod', price: 1000, quantity: 2 }],
         totalAmount: 100,
-        date: '2024-08-24T00:00:00.000Z',
+        createdAt: '2024-08-24T00:00:00.000Z',
       };
 
       mockRequest = {
@@ -147,14 +147,14 @@ describe('SaleControllerImpl', () => {
           userID: 1,
           products: [{ productID: 1, name: 'Prod', price: 1000, quantity: 2 }],
           totalAmount: 2000,
-          date: '2024-08-24T00:00:00.000Z',
+          createdAt: '2024-08-24T00:00:00.000Z',
         },
         {
           saleID: 'mocked-sale-id-2',
           userID: 1,
           products: [{ productID: 2, name: 'Prod2', price: 1000, quantity: 1 }],
           totalAmount: 1000,
-          date: '2024-08-25T00:00:00.000Z',
+          createdAt: '2024-08-25T00:00:00.000Z',
         },
       ];
 
@@ -184,7 +184,7 @@ describe('SaleControllerImpl', () => {
           userID: 1,
           products: [{ productID: 1, name: 'Prod', price: 1000, quantity: 2 }],
           totalAmount: 100,
-          date: '2024-08-24T00:00:00.000Z',
+          createdAt: '2024-08-24T00:00:00.000Z',
         },
       ];
 

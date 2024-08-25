@@ -39,7 +39,7 @@ export class SalesRepositoryImpl implements SalesRepository {
                     userID: sale.userID,
                     products: sale.products,
                     totalAmount: sale.totalAmount,
-                    date: sale.date
+                    createdAt: sale.createdAt
                 }
             };
 
@@ -92,20 +92,23 @@ export class SalesRepositoryImpl implements SalesRepository {
         }
     }
 
-    async getSalesByDate(date: string): Promise<Sale[]> {
+    async getSalesByDate(createdAt: string): Promise<Sale[]> {
         const params = {
             TableName: this.tableName,
-            FilterExpression: 'date = :date',
+            FilterExpression: '#createdAt = :createdAt',
+            ExpressionAttributeNames: {
+                '#createdAt': 'createdAt'
+            },
             ExpressionAttributeValues: {
-                ':date': date
+                ':createdAt': createdAt
             }
         };
-
+    
         try {
             const result = await this.db.scan(params).promise();
             return result.Items as Sale[];
         } catch (error) {
-            this.logger.error(`Error getting sales for date ${date}: ${error}`);
+            this.logger.error(`Error getting sales for date ${createdAt}: ${error}`);
             throw error;
         }
     }

@@ -19,13 +19,13 @@ export class SaleResponse {
     totalAmount: number;
 
     @IsString()
-    date: string;
+    createdAt: string;
 
-    constructor(saleID: string, userID: number, products: Product[], totalAmount: number, date: string) {
+    constructor(saleID: string, userID: number, products: Product[], totalAmount: number, createdAt: string) {
         this.saleID = saleID;
         this.userID = userID;
         this.products = products;
         this.totalAmount = totalAmount;
-        this.date = date;
+        this.createdAt = createdAt;
     }
 }

@@ -27,7 +27,7 @@ describe('SalesRepositoryImpl', () => {
             userID: 1,
             products: [{ productID: 1, name: 'Product 1', price: 50, quantity: 2 }],
             totalAmount: 100,
-            date: "2021-09-01T00:00:00.000Z"
+            createdAt: "2021-09-01T00:00:00.000Z"
         };
 
         db.put.mockReturnValue({
@@ -45,7 +45,7 @@ describe('SalesRepositoryImpl', () => {
             userID: 1,
             products: [{ productID: 1, name: 'Product 1', price: 50, quantity: 2 }],
             totalAmount: 100,
-            date: "2021-09-01T00:00:00.000Z"
+            createdAt: "2021-09-01T00:00:00.000Z"
         };
 
         const error = new Error('Something went wrong');
@@ -63,7 +63,7 @@ describe('SalesRepositoryImpl', () => {
             userID: 1,
             products: [{ productID: 1, name: 'Product 1', price: 50, quantity: 2 }],
             totalAmount: 100,
-            date: "2021-09-01T00:00:00.000Z"
+            createdAt: "2021-09-01T00:00:00.000Z"
         };
 
         db.get.mockReturnValue({
@@ -106,14 +106,14 @@ describe('SalesRepositoryImpl', () => {
                 userID: 1,
                 products: [{ productID: 1, name: 'Product 1', price: 50, quantity: 2 }],
                 totalAmount: 100,
-                date: "2021-09-01T00:00:00.000Z"
+                createdAt: "2021-09-01T00:00:00.000Z"
             },
             {
                 saleID: '124',
                 userID: 1,
                 products: [{ productID: 2, name: 'Product 2', price: 100, quantity: 1 }],
                 totalAmount: 100,
-                date: "2021-09-01T00:00:00.000Z"
+                createdAt: "2021-09-01T00:00:00.000Z"
             }
         ];
 
@@ -145,14 +145,14 @@ describe('SalesRepositoryImpl', () => {
                 userID: 1,
                 products: [{ productID: 1, name: 'Product 1', price: 50, quantity: 2 }],
                 totalAmount: 100,
-                date: "2021-09-01T00:00:00.000Z"
+                createdAt: "2021-09-01T00:00:00.000Z"
             },
             {
                 saleID: '124',
                 userID: 1,
                 products: [{ productID: 2, name: 'Product 2', price: 100, quantity: 1 }],
                 totalAmount: 100,
-                date: "2021-09-01T00:00:00.000Z"
+                createdAt: "2021-09-01T00:00:00.000Z"
             }
         ];
 
