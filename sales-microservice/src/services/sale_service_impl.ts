@@ -15,6 +15,25 @@ export class SaleServiceImpl implements SaleService {
         this.saleRepo = saleRepo;
         this.logger = logger;
     }
+    
+    async getAllSales(): Promise<SaleResponse[]> {
+        try {
+            const sales = await this.saleRepo.getAllSales();
+            return sales.map(sale => {
+                return {
+                    saleID: sale.saleID,
+                    userID: sale.userID,
+                    products: sale.products,
+                    totalAmount: sale.totalAmount,
+                    date: sale.date
+                };
+            });
+        } catch (error) {
+            this.logger.error(`Failed to get all sales: ${error}`);
+            throw new Error("Failed to retrieve sales");
+        }
+    }
+    
     async createSale(saleRequest: CreateSaleRequest): Promise<string> {
         try {
             const saleID = uuidv4();  // Generar un UUID para la venta

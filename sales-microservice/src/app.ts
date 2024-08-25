@@ -8,7 +8,7 @@ import { SaleControllerImpl } from "./controllers/sale_controller_impl";
 import { AppRouter } from "./routes/router";
 
 const awsRegion = "sa-east-1";
-const tableName = "sales";
+const tableName = "Sales";
 
 const app = express();
 app.use(express.json());

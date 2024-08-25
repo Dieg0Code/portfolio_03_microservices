@@ -24,7 +24,7 @@ FROM openjdk:17-jdk-slim
 LABEL maintainer="github.com/dieg0code"
 
 # Exponer el puerto de la aplicación
-EXPOSE 8080
+EXPOSE 8081
 
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /app

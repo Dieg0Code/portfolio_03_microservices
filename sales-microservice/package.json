@@ -2,9 +2,10 @@
   "name": "sales-microservice",
   "version": "1.0.0",
   "description": "portfolio_03_sales_microservice",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --verbose"
+    "test": "jest --runInBand --detectOpenHandles --verbose",
+    "build": "tsc"
   },
   "jest": {
     "preset": "ts-jest",

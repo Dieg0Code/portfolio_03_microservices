@@ -5,5 +5,6 @@ export interface SalesRepository {
     getSaleByID(saleID: string): Promise<Sale | null> ;
     getSalesByUserID(userID: number): Promise<Sale[]>;
     getSalesByDate(date: string): Promise<Sale[]>;
+    getAllSales(): Promise<Sale[]>;
     deleteSale(saleID: string): Promise<boolean>;
 }

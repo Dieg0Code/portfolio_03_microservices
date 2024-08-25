@@ -11,11 +11,12 @@ export class AppRouter {
     public initRoutes(): Router {
         const router = Router();
 
-        router.get("/", (req, res) => {
+        router.get("/", (_req, res) => {
             res.json({ message: "Welcome to Sales Microservice" });
+            
         });
 
-        router.get("/health", (req, res) => {
+        router.get("/health", (_req, res) => {
             res.json({ message: "Sales Microservice is healthy" });
         });
 
@@ -26,6 +27,7 @@ export class AppRouter {
         salesRoute.get("/:saleID", this.saleController.getSaleByID.bind(this.saleController));
         salesRoute.get("/user/:userID", this.saleController.getSalesByUserID.bind(this.saleController));
         salesRoute.get("/date/:date", this.saleController.getSalesByDate.bind(this.saleController));
+        salesRoute.get("/", this.saleController.getAllSales.bind(this.saleController));
         salesRoute.post("/", this.saleController.createSale.bind(this.saleController));
         salesRoute.delete("/:saleID", this.saleController.deleteSale.bind(this.saleController));
 

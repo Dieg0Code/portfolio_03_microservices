@@ -15,6 +15,29 @@ export class SaleControllerImpl implements SaleController {
         this.saleService = saleService;
         this.logger = logger;
     }
+    async getAllSales(_req: Request, res: Response): Promise<void> {
+        try {
+            const sales = this.saleService.getAllSales();
+            const response = {
+                code: 200,
+                status: "OK",
+                msg: "Sales retrieved successfully",
+                data: sales
+            }
+
+            res.status(200).json(response);
+        } catch (error) {
+            this.logger.error(`Failed to get all sales: ${error}`);
+            const response = {
+                code: 500,
+                status: "Internal Server Error",
+                msg: "Failed to retrieve sales",
+                data: null
+            }
+
+            res.status(500).json(response);
+        }
+    }
 
     // Implement the createSale method
     async createSale(req: Request, res: Response): Promise<void> {

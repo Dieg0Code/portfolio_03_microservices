@@ -6,5 +6,6 @@ export interface SaleService {
     getSaleByID(saleID: string): Promise<SaleResponse | null>;
     getSalesByUserID(userID: number): Promise<SaleResponse[]>;
     getSalesByDate(date: Date): Promise<SaleResponse[]>;
+    getAllSales(): Promise<SaleResponse[]>;
     deleteSale(saleID: string): Promise<boolean>;
 }
