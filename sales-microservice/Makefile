@@ -21,7 +21,7 @@ stop_test_db:
 	docker rm dynamodb-sales
 
 build:
-	docker build -t sales-microservice .
+	docker build --no-cache -t sales-microservice .
 
 run:
 	docker run --name sales-microservice -p 8082:8082 --network sales-network -v ~/.aws:/root/.aws -e AWS_REGION=sa-east-1 -e AWS_SDK_LOAD_CONFIG=1 sales-microservice

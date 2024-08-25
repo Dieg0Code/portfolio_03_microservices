@@ -13,7 +13,6 @@
     "removeComments": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmitOnError": true,

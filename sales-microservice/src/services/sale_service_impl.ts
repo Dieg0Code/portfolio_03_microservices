@@ -20,6 +20,7 @@ export class SaleServiceImpl implements SaleService {
         try {
             const sales = await this.saleRepo.getAllSales();
             return sales.map(sale => {
+                this.logger.info(`Sales retrieved successfully ${sales}`);
                 return {
                     saleID: sale.saleID,
                     userID: sale.userID,

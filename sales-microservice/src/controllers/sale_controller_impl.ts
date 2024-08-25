@@ -15,10 +15,11 @@ export class SaleControllerImpl implements SaleController {
         this.saleService = saleService;
         this.logger = logger;
     }
-    async getAllSales(_req: Request, res: Response): Promise<void> {
+    async getAllSales(req: Request, res: Response): Promise<void> {
         try {
-            const sales = this.saleService.getAllSales();
-            const response = {
+            const sales = await this.saleService.getAllSales();
+
+            const response: BaseResponse<SaleResponse[]> = {
                 code: 200,
                 status: "OK",
                 msg: "Sales retrieved successfully",
@@ -28,7 +29,7 @@ export class SaleControllerImpl implements SaleController {
             res.status(200).json(response);
         } catch (error) {
             this.logger.error(`Failed to get all sales: ${error}`);
-            const response = {
+            const response: BaseResponse<null> = {
                 code: 500,
                 status: "Internal Server Error",
                 msg: "Failed to retrieve sales",

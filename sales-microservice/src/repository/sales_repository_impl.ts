@@ -17,14 +17,12 @@ export class SalesRepositoryImpl implements SalesRepository {
     }
 
     async getAllSales(): Promise<Sale[]> {
-        this.logger.info(`Getting all sales from table ${this.tableName}`);
         try {
             const params = {
                 TableName: this.tableName
             };
-            return this.db.scan(params).promise().then((result) => {
-                return result.Items as Sale[];
-            });
+            const result = await this.db.scan(params).promise();
+            return result.Items as Sale[];
         } catch (error) {
             this.logger.error(`Error getting all sales: ${error}`);
             throw error;
