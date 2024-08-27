@@ -95,16 +95,14 @@ export class SalesRepositoryImpl implements SalesRepository {
     async getSalesByDate(createdAt: string): Promise<Sale[]> {
         const params = {
             TableName: this.tableName,
-            FilterExpression: '#createdAt = :createdAt',
-            ExpressionAttributeNames: {
-                '#createdAt': 'createdAt'
-            },
+            FilterExpression: 'createdAt = :createdAt',
             ExpressionAttributeValues: {
                 ':createdAt': createdAt
             }
         };
     
         try {
+            this.logger.info(`Getting sales for date ${createdAt}`);
             const result = await this.db.scan(params).promise();
             return result.Items as Sale[];
         } catch (error) {
