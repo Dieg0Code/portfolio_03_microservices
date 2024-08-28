@@ -30,6 +30,7 @@ func (p *ProductServiceImpl) CreateProduct(product *request.CreateProductRequest
 		return nil, err
 	}
 
+	logrus.WithField("product_id", createdProduct.ID).Info("Product created successfully")
 	return &createdProduct.ID, nil
 }
 
@@ -45,6 +46,8 @@ func (p *ProductServiceImpl) DeleteProduct(productID uint) error {
 		logrus.WithError(err).Error("Error deleting product")
 		return err
 	}
+
+	logrus.WithField("product_id", productID).Info("Product deleted successfully")
 
 	return nil
 }
@@ -63,13 +66,16 @@ func (p *ProductServiceImpl) GetAllProducts(page int, pageSize int) ([]response.
 	var productResponses []response.ProductResponse
 	for _, product := range products {
 		productResponses = append(productResponses, response.ProductResponse{
-			ProductID: product.ID,
-			Name:      product.Name,
-			Category:  product.Category,
-			Price:     product.Price,
-			Stock:     product.Stock,
+			ProductID:  product.ID,
+			Name:       product.Name,
+			Category:   product.Category,
+			Price:      product.Price,
+			Stock:      product.Stock,
+			LastUpdate: product.UpdatedAt.Format("02-01-2006"),
 		})
 	}
+
+	logrus.WithField("total_products", len(productResponses)).Info("Products retrieved successfully")
 
 	return productResponses, nil
 }
@@ -86,13 +92,16 @@ func (p *ProductServiceImpl) GetByCategory(category string) ([]response.ProductR
 	var productResponses []response.ProductResponse
 	for _, product := range products {
 		productResponses = append(productResponses, response.ProductResponse{
-			ProductID: product.ID,
-			Name:      product.Name,
-			Category:  product.Category,
-			Price:     product.Price,
-			Stock:     product.Stock,
+			ProductID:  product.ID,
+			Name:       product.Name,
+			Category:   product.Category,
+			Price:      product.Price,
+			Stock:      product.Stock,
+			LastUpdate: product.UpdatedAt.Format("02-01-2006"),
 		})
 	}
+
+	logrus.WithField("total_products", len(productResponses)).Info("Products retrieved successfully")
 
 	return productResponses, nil
 }
@@ -107,12 +116,15 @@ func (p *ProductServiceImpl) GetProductById(ProductID uint) (*response.ProductRe
 	}
 
 	productResponse := &response.ProductResponse{
-		ProductID: product.ID,
-		Name:      product.Name,
-		Category:  product.Category,
-		Price:     product.Price,
-		Stock:     product.Stock,
+		ProductID:  product.ID,
+		Name:       product.Name,
+		Category:   product.Category,
+		Price:      product.Price,
+		Stock:      product.Stock,
+		LastUpdate: product.UpdatedAt.Format("02-01-2006"),
 	}
+
+	logrus.WithField("product_id", product.ID).Info("Product retrieved successfully")
 
 	return productResponse, nil
 }
@@ -140,6 +152,8 @@ func (p *ProductServiceImpl) UpdateProduct(productID uint, product *request.Upda
 		Price:     updatedProduct.Price,
 		Stock:     updatedProduct.Stock,
 	}
+
+	logrus.WithField("product_id", updatedProduct.ID).Info("Product updated successfully")
 
 	return productResponse, nil
 }

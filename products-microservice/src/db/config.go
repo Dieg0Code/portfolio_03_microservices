@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
@@ -18,10 +19,22 @@ func DatabaseConnection() *gorm.DB {
 	dbName := os.Getenv("DB_NAME")
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbName)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	var db *gorm.DB
+	var err error
+
+	maxAttempts := 5
+	for attempts := 1; attempts <= maxAttempts; attempts++ {
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		if err == nil {
+			break
+		}
+		logrus.WithError(err).Errorf("Failed to connect to database (attempt %d/%d)", attempts, maxAttempts)
+		time.Sleep(5 * time.Second) // Wait for 5 seconds before retrying
+	}
 
 	if err != nil {
-		panic("Failed to connect to database!")
+		panic("Failed to connect to database after multiple attempts!")
 	}
 
 	return db

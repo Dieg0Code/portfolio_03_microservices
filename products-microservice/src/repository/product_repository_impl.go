@@ -120,7 +120,7 @@ func (p *ProductRepositoryImpl) UpdateProduct(prodctID uint, product *models.Pro
 	}
 
 	if !exists {
-		logrus.Error("Product not found")
+		logrus.WithField("product_id", product.ID).Errorf("Product with id %d not found", product.ID)
 		return nil, errors.New("product not found")
 	}
 
