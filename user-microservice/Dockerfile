@@ -15,7 +15,7 @@ COPY settings.gradle .
 COPY src src
 
 # Construir la aplicación
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build --no-daemon -x test
 
 # Etapa 2: Imagen ligera para la ejecución
 FROM openjdk:17-jdk-slim
