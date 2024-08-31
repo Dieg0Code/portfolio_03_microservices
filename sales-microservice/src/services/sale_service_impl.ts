@@ -92,10 +92,9 @@ export class SaleServiceImpl implements SaleService {
             throw new Error("Failed to retrieve sales");
         }
     }
-    async getSalesByDate(date: Date): Promise<SaleResponse[]> {
-        const dateStr = date.toISOString();
+    async getSalesByDate(date: string): Promise<SaleResponse[]> {
         try {
-            const sales = await this.saleRepo.getSalesByDate(dateStr);
+            const sales = await this.saleRepo.getSalesByDate(date);
             return sales.map(sale => {
                 return {
                     saleID: sale.saleID,

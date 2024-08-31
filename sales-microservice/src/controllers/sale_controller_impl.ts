@@ -152,7 +152,7 @@ export class SaleControllerImpl implements SaleController {
     async getSalesByDate(req: Request, res: Response): Promise<void> {
         
         try {
-            const date = new Date(req.params.date);
+            const date = req.params.date;
 
             const sales = await this.saleService.getSalesByDate(date);
 
